@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 
-public class MainActivity extends AppCompatActivity implements MoviesFragment.OnMovieSelectedListener {
+public class MainActivity extends AppCompatActivity implements MoviesFragment.OnMovieSelectedListener, SearchFragment.OnSearchListener {
 
     private static final String TAG = "MainActivity";
 
@@ -39,5 +39,10 @@ public class MainActivity extends AppCompatActivity implements MoviesFragment.On
                 .replace(R.id.container, detailFragment, null)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public void onSearchSubmitted(String searchTerm) {
+        
     }
 }
