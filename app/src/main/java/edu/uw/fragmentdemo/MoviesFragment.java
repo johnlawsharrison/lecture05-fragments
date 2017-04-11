@@ -21,10 +21,24 @@ import java.util.ArrayList;
 public class MoviesFragment extends Fragment {
 
     private static final String TAG = "MoviesFragment";
+
+    private static final String SEARCH_ARG_KEY = "search_key";
+
     private ArrayAdapter<Movie> adapter;
 
     public MoviesFragment() {
         // Required empty public constructor
+    }
+
+    // fragment factory
+    public static MoviesFragment newInstance(String searchTerm) {
+        
+        Bundle args = new Bundle();
+        args.putString(SEARCH_ARG_KEY, searchTerm);
+        
+        MoviesFragment fragment = new MoviesFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
 
@@ -35,8 +49,7 @@ public class MoviesFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_movies, container, false);
 
-        adapter = new ArrayAdapter<Movie>(getActivity(),
-                R.layout.fragment_movies, R.id.txtItem, new ArrayList<Movie>());
+        adapter = new ArrayAdapter<Movie>(getActivity(), R.layout.fragment_movies, R.id.txtItem, new ArrayList<Movie>());
 
         ListView listView = (ListView)rootView.findViewById(R.id.listView);
         listView.setAdapter(adapter);
@@ -48,6 +61,10 @@ public class MoviesFragment extends Fragment {
                 Log.v(TAG, "You clicked on: " + movie);
             }
         });
+
+        Bundle args = getArguments();
+        String searchTerm = args.getString(SEARCH_ARG_KEY);
+        downloadMovieData(searchTerm);
 
         return rootView;
 
@@ -75,6 +92,7 @@ public class MoviesFragment extends Fragment {
 
             adapter.clear();
             for(Movie movie : movies){
+                Log.v(TAG, movie.toString());
                 adapter.add(movie);
             }
         }

@@ -38,12 +38,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/inputLayout">
-
-        <fragment
-            android:id="@+id/movieFragment"
-            android:name="edu.uw.fragmentdemo.MoviesFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
     </FrameLayout>
 
 </RelativeLayout>
