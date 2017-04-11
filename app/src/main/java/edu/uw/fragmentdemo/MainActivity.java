@@ -12,31 +12,18 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import static edu.uw.fragmentdemo.MovieDownloader.downloadMovieData;
+import static edu.uw.fragmentdemo.R.id.listView;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-
-    private ArrayAdapter<Movie> adapter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        adapter = new ArrayAdapter<Movie>(this,
-                R.layout.list_item, R.id.txtItem, new ArrayList<Movie>());
-
-        ListView listView = (ListView)findViewById(R.id.listView);
-        listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Movie movie = (Movie)parent.getItemAtPosition(position);
-                Log.v(TAG, "You clicked on: "+movie);
-            }
-        });
     }
 
 
@@ -46,33 +33,6 @@ public class MainActivity extends AppCompatActivity {
         String searchTerm = text.getText().toString();
 
         downloadMovieData(searchTerm);
-    }
-
-    //helper method for downloading the data via the MovieDownloadTask
-    public void downloadMovieData(String searchTerm){
-        Log.v(TAG, "You searched for: "+searchTerm);
-        MovieDownloadTask task = new MovieDownloadTask();
-        task.execute(searchTerm);
-    }
-
-    //A task to download movie data from the internet on a background thread
-    public class MovieDownloadTask extends AsyncTask<String, Void, ArrayList<Movie>> {
-
-        @Override
-        protected ArrayList<Movie> doInBackground(String... params) {
-            ArrayList<Movie> data = MovieDownloader.downloadMovieData(params[0]);
-            return data;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<Movie> movies) {
-            super.onPostExecute(movies);
-
-            adapter.clear();
-            for(Movie movie : movies){
-                adapter.add(movie);
-            }
-        }
     }
 
 }
